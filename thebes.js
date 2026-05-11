@@ -1,109 +1,90 @@
-// ==================== HAMBURGER MENU ====================
+// ==================== MOBILE MENU HANDLER ====================
 const hamburger = document.getElementById('hamburgerBtn');
 const navMenu = document.querySelector('.nav-menu');
 
 if (hamburger && navMenu) {
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
-        console.log('Menu toggled');
     });
 
-    // Close menu when a link is clicked
     const navLinks = navMenu.querySelectorAll('a');
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         });
     });
-} else {
-    console.log('Hamburger or nav menu elements not found');
 }
 
-// ==================== SIGN IN MODAL ====================
+// ==================== SIGN IN MODAL HANDLER ====================
 const signInBtn = document.getElementById('signInBtn');
 const loginModal = document.getElementById('loginModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const modalOverlay = document.querySelector('.modal-overlay');
 const loginForm = document.getElementById('loginForm');
 
+const closeModal = () => {
+    if (loginModal) {
+        loginModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        if (loginForm) {
+            loginForm.reset();
+        }
+    }
+};
+
 if (signInBtn && loginModal) {
-    // Open modal when Sign In button is clicked
-    signInBtn.addEventListener('click', function(e) {
-        e.preventDefault();
+    signInBtn.addEventListener('click', event => {
+        event.preventDefault();
         loginModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        document.body.style.overflow = 'hidden';
     });
 }
 
 if (closeModalBtn) {
-    // Close modal when close button is clicked
-    closeModalBtn.addEventListener('click', function() {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        loginForm.reset();
-    });
+    closeModalBtn.addEventListener('click', closeModal);
 }
 
 if (modalOverlay) {
-    // Close modal when overlay is clicked
-    modalOverlay.addEventListener('click', function() {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        loginForm.reset();
-    });
+    modalOverlay.addEventListener('click', closeModal);
 }
 
-// Close modal when Escape key is pressed
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && loginModal && loginModal.classList.contains('active')) {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        loginForm.reset();
+        closeModal();
     }
 });
 
 // ==================== LOGIN FORM SUBMISSION ====================
 if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        // Basic validation
+    loginForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
         if (email && password) {
-            console.log('Login attempt with:', { email, password });
-            
-            // Show success message (in a real app, this would send to server)
             alert(`Welcome back, ${email.split('@')[0]}! Login successful.`);
-            
-            // Close modal
-            loginModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            loginForm.reset();
+            closeModal();
         } else {
-            alert('Please fill in all fields');
+            alert('Please fill in all fields.');
         }
     });
 }
 
-// ==================== SMOOTH SCROLLING FOR NAVIGATION LINKS ====================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
+// ==================== SMOOTH SCROLLING FOR NAV LINKS ====================
+const anchorLinks = document.querySelectorAll('a[href^="#"]');
+anchorLinks.forEach(anchor => {
+    anchor.addEventListener('click', event => {
+        const href = anchor.getAttribute('href');
         if (href !== '#' && document.querySelector(href)) {
-            e.preventDefault();
-            const element = document.querySelector(href);
-            element.scrollIntoView({
+            event.preventDefault();
+            document.querySelector(href).scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
         }
     });
 });
-
-// ==================== CONSOLE LOGGING ====================
-console.log('LUGX Gaming Platform - All scripts loaded successfully');
 
