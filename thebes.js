@@ -88,3 +88,23 @@ anchorLinks.forEach(anchor => {
     });
 });
 
+// ==================== SEARCH FUNCTIONALITY ====================
+const searchBtn = document.querySelector('.searchBtn');
+const searchInput = document.querySelector('.searchBar input');
+const cards = document.querySelectorAll('.card');
+
+if (searchBtn && searchInput && cards.length > 0) {
+    searchBtn.addEventListener('click', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        cards.forEach(card => {
+            const cardText = card.querySelector('.card-info').textContent.toLowerCase();
+            if (cardText.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+}
+

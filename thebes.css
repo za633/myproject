@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+#signInBtn {
+  margin-left: auto;
+}
 :root {
     --primary: #ff7a3d;
     --bg-dark: #0b0426;
